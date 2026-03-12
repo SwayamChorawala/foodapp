@@ -1,0 +1,78 @@
+.hero{
+    background-color: #111827;
+    color: #ffffff;
+    padding: 3rem 1.25rem;
+}
+
+.hero-inner{
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.hero-title{
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+}
+
+.hero-card{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1rem;
+}
+
+.hero-card.reverse .hero-copy{
+    order: -1;
+}
+
+.foodimg,
+.food1img{
+    width: 100%;
+    height: min(40vw, 420px);
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.hero-copy h2{
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.hero-copy .eyebrow{
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fed7aa;
+}
+
+.hero-copy p{
+    margin: 0;
+    line-height: 1.7;
+}
+
+@media (max-width: 900px){
+    .hero{
+        padding: 2rem 1rem;
+    }
+
+    .hero-card{
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .hero-card.reverse .hero-copy{
+        order: initial;
+    }
+
+    .foodimg,
+    .food1img{
+        height: min(58vw, 340px);
+    }
+}

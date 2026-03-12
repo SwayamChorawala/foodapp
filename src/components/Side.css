@@ -1,0 +1,97 @@
+.side-section{
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 0 1.25rem 1rem;
+}
+
+.side-title{
+    font-weight: 400;
+    font-size: clamp(2rem, 5vw, 4.2rem);
+    color: black;
+    text-align: center;
+    margin: 0 0 1.5rem;
+}
+
+.img-container {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding: 0.5rem 0 1.5rem;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+    box-sizing: border-box;
+}
+
+.img-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.img-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.img-container::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.img-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.imgfood {
+    overflow: hidden;
+    border-radius: 12px;
+    flex: 0 0 400px;
+    scroll-snap-align: start;
+}
+
+.imgfood img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.imgfood img:hover {
+    transform: scale(1.05);
+}
+
+.menu-btn{
+    margin: 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: black;
+    min-width: 140px;
+    height: 40px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.menu-btn:hover{
+    background-color: bisque;
+    color: black;
+}
+
+@media (max-width: 1024px) {
+    .imgfood {
+        flex: 0 0 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .side-section{
+        padding: 0 1rem 1rem;
+    }
+
+    .imgfood {
+        flex: 0 0 240px;
+    }
+}

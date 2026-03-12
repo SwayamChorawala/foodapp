@@ -1,0 +1,41 @@
+#hc{
+    font-size: 3rem;
+    font-weight: 200;
+    margin-left: 100px;
+}
+#chef1{
+    margin-left: 100px;
+    width: 400px;
+    height: 400px;
+}
+#pc{
+    position: absolute;
+    left: 32%;
+    font-size: 1.9rem;
+    top: 163%;
+}
+#pc2{
+   position: absolute;
+    left: 32%;
+    font-size: 1.4rem;
+    top: 169%;
+}
+#chef2{
+    position: absolute;
+    left: 50%;
+    top: 127%;
+     width: 400px;
+    height: 405px;
+}
+#pc3{
+     position: absolute;
+    left: 76%;
+    font-size: 1.9rem;
+    top: 163%;
+}
+#pc4{
+   position: absolute;
+    left: 76%;
+    font-size: 1.4rem;
+    top: 169%;   
+}

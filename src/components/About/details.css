@@ -1,0 +1,30 @@
+.container21{
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+    background-color: black;
+    display: flex;
+    justify-content: space-between  ;
+}
+#main{
+    color:azure;
+    font-size: 5rem;
+    margin-left: 100px;
+    padding-top: 30px;
+}
+#ph{
+    font-size: 1rem;
+    width: 300px;
+}
+#myfood{
+    width: 800px;
+    height: 650px;
+    position: absolute;
+    left: 50%;
+    top: 120px;
+}
+#myfood1{
+    position: relative;
+    width: 400px;
+    height: 200px;    
+}

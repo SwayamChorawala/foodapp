@@ -1,0 +1,124 @@
+.cart-page-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  gap: 2rem;
+  color: white;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2
+}
+
+.cart-items-section {
+  flex: 2;
+  min-width: 300px;
+}
+
+.cart-summary-section {
+  flex: 1;
+  min-width: 280px;
+  background: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.5rem 2rem;
+  height: fit-content;
+}
+
+.cart-summary-section h2 {
+  margin-top: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.summary-item, .summary-total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  font-size: 1.1rem;
+}
+
+.summary-total {
+  font-weight: bold;
+  font-size: 1.4rem;
+  margin-top: 1.5rem;
+  color: #fbbf24;
+}
+
+.cart-summary-section hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cart-empty {
+    width: 100%;
+    text-align: center;
+}
+
+.cart-empty p {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    color:white;
+}
+
+.cart-item-wrapper {
+  position: relative;
+  max-width: 340px; 
+  margin: 0 auto;  
+}
+
+.quantity-controls {
+  position: absolute;
+  bottom: 21px; 
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 120px;
+  background: rgba(30, 30, 30, 0.95);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px 18px 8px 8px; /* Rounded more at the top */
+  padding: 6px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+}
+
+.quantity-controls button{
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg,#f59e0b,#fbbf24);
+  color: #111;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+}
+
+.quantity-controls button:hover{
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(251,191,36,0.5);
+}
+
+.quantity-controls button:active{
+  transform: scale(0.92);
+}
+
+.quantity-controls span{
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  min-width: 20px;
+  text-align: center;
+}

@@ -1,0 +1,97 @@
+:root {
+    --bg: #fffaf3;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --brand: #f97316;
+    --brand-dark: #ea580c;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.home-page {
+    background: linear-gradient(180deg, #fffaf3 0%, #ffffff 40%, #fff7ed 100%);
+    color: var(--text);
+}
+
+.photo {
+    position: relative;
+    min-height: 72vh;
+}
+
+.hero-image {
+    width: 100%;
+    min-height: 72vh;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 250, 243, 0.25) 0%, rgba(255, 250, 243, 0.45) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.taste {
+    color: #111827;
+    font-size: clamp(2rem, 6vw, 5rem);
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 12px rgba(255, 255, 255, 0.75);
+}
+
+.p {
+    color: #1f2937;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-weight: 600;
+    margin: 0;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    background-color: #f5f5dc;
+    color: #111827;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.btn:hover {
+    background-color: #111827;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.hero-stack {
+    background-color: #111827;
+}
+
+.side-stack,
+.form-stack {
+    padding: 2rem 0;
+    background-color: #fff;
+}
+
+.footer-stack {
+    background: transparent;
+}
+
+@media (max-width: 900px) {
+    .photo,
+    .hero-image {
+        min-height: 62vh;
+    }
+}
+.sidebar{
+    background-color: white;
+}
