@@ -1,12 +1,11 @@
 .contact-form-section{
     width: min(1200px, 100%);
-    margin: 0 auto;
-    padding: 0 1.25rem 2rem;
+    margin: 2rem auto;
+    padding: 0 1.25rem 3rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
     align-items: stretch;
-    margin-left: 250px;
 }
 
 .form-image{

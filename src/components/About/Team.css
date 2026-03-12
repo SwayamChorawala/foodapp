@@ -1,41 +1,52 @@
-#hc{
-    font-size: 3rem;
-    font-weight: 200;
-    margin-left: 100px;
+.main2 {
+    width: min(1200px, 100%);
+    margin: 4rem auto;
+    padding: 0 1.25rem;
 }
-#chef1{
-    margin-left: 100px;
-    width: 400px;
+
+#hc {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.teams-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.chef-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: min(400px, 100%);
+}
+
+#chef1, #chef2 {
+    width: 100%;
     height: 400px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 1rem;
 }
-#pc{
-    position: absolute;
-    left: 32%;
-    font-size: 1.9rem;
-    top: 163%;
+
+#pc, #pc3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
 }
-#pc2{
-   position: absolute;
-    left: 32%;
-    font-size: 1.4rem;
-    top: 169%;
+
+#pc2, #pc4 {
+    font-size: 1.2rem;
+    color: #666;
 }
-#chef2{
-    position: absolute;
-    left: 50%;
-    top: 127%;
-     width: 400px;
-    height: 405px;
-}
-#pc3{
-     position: absolute;
-    left: 76%;
-    font-size: 1.9rem;
-    top: 163%;
-}
-#pc4{
-   position: absolute;
-    left: 76%;
-    font-size: 1.4rem;
-    top: 169%;   
+
+@media (max-width: 480px) {
+    #chef1, #chef2 {
+        height: 300px;
+    }
 }

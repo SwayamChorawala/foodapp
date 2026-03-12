@@ -74,15 +74,21 @@
 @media (max-width: 600px) {
 	.navbar{
 		border-radius: 16px;
+        padding: 0.5rem;
+        width: calc(100% - 1rem);
 	}
 
 	.nav-links {
-		flex-direction: row;
 		gap: 0.5rem;
 	}
 
 	.nav-links a{
-		font-size: 0.95rem;
+		font-size: 0.9rem;
+        padding: 0.25rem 0.4rem;
 	}
+
+    .Shopping-bag {
+        margin-left: 1rem;
+    }
 }
 
