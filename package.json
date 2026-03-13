@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
+    "build": "^0.1.4",
     "dom": "^0.0.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.0",
