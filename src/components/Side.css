@@ -95,3 +95,27 @@
         flex: 0 0 240px;
     }
 }
+
+@media (max-width: 480px) {
+    .side-section {
+        padding: 0 0.75rem 1rem;
+    }
+
+    .imgfood {
+        flex: 0 0 200px;
+    }
+
+    .imgfood img {
+        height: 220px;
+    }
+
+    .side-title {
+        margin-bottom: 1rem;
+    }
+
+    .menu-btn {
+        min-width: 120px;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+}

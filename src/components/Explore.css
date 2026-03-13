@@ -80,3 +80,28 @@
         text-align: center;
     }
 }
+
+@media (max-width: 480px) {
+    .explore {
+        padding: 1.5rem 0.75rem 2rem;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .img-photo {
+        height: min(70vw, 300px);
+        border-radius: 10px;
+    }
+
+    .text-area {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+    }
+
+    .explore-p {
+        font-size: 0.9rem;
+    }
+
+    .explore-p p:first-child {
+        font-size: 1.1rem;
+    }
+}

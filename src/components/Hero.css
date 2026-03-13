@@ -76,3 +76,32 @@
         height: min(58vw, 340px);
     }
 }
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 1.5rem 0.75rem;
+    }
+
+    .hero-card {
+        padding: 0.75rem;
+        border-radius: 12px;
+    }
+
+    .foodimg,
+    .food1img {
+        height: min(65vw, 280px);
+        border-radius: 10px;
+    }
+
+    .hero-copy h2 {
+        font-size: 1.3rem;
+    }
+
+    .hero-copy .eyebrow {
+        font-size: 0.95rem;
+    }
+
+    .hero-copy p {
+        font-size: 0.9rem;
+    }
+}

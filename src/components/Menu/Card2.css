@@ -122,3 +122,62 @@
   min-width: 20px;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .cart-page-container {
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .cart-items-section {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .cart-summary-section {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .cart-item-wrapper {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-page-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .cart-summary-section {
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+  }
+
+  .cart-summary-section h2 {
+    font-size: 1.2rem;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .summary-item {
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .summary-total {
+    font-size: 1.2rem;
+  }
+
+  .quantity-controls {
+    width: 110px;
+  }
+
+  .quantity-controls button {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+  }
+}

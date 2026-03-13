@@ -66,3 +66,27 @@
         display: none;
     }
 }
+
+@media (max-width: 480px) {
+    .booking-cta {
+        min-height: 280px;
+        padding: 2rem 0.75rem;
+        border-top-right-radius: 24px;
+        border-top-left-radius: 24px;
+    }
+
+    .h1 {
+        font-size: 1.8rem;
+    }
+
+    .p7 {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .btn2 {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.9rem;
+        min-width: 120px;
+    }
+}

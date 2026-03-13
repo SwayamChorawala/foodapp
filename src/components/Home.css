@@ -92,6 +92,24 @@
         min-height: 62vh;
     }
 }
-.sidebar{
+
+@media (max-width: 480px) {
+    .photo,
+    .hero-image {
+        min-height: 50vh;
+    }
+
+    .btn {
+        padding: 0.6rem 1.25rem;
+        font-size: 0.9rem;
+    }
+
+    .side-stack,
+    .form-stack {
+        padding: 1rem 0;
+    }
+}
+
+.sidebar {
     background-color: white;
 }
