@@ -1,94 +1,273 @@
-/* Home navigation styles */
+/* ── Navbar Base ── */
 .navbar {
-	background: #ffffff;
-	padding: 0.75rem 1rem;
-	box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-	display: flex;
-	justify-content: center;
-    border-radius: 30px;
-	width: min(960px, calc(100% - 1.5rem));
-	margin: 1rem auto;
-	position: sticky;
-	top: 0.75rem;
-	z-index: 20;
-	backdrop-filter: blur(4px);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border-radius: 50px;
+    width: min(1100px, calc(100% - 2rem));
+    margin: 1rem auto;
+    position: sticky;
+    top: 0.75rem;
+    z-index: 100;
+    padding: 0;
 }
 
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1.5rem;
+    gap: 2rem;
+}
+
+/* ── Brand Title ── */
+.nav-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: -0.3px;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.nav-title:hover {
+    color: #ff6b6b;
+}
+
+/* ── Navigation Links ── */
 .nav-links {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-	flex-wrap: wrap;
-	justify-content: center;
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-links a {
-	color: #333333;
-	text-decoration: none;
-	font-weight: 600;
-	text-transform: capitalize;
-	padding: 0.35rem 0.5rem;
-	border-radius: 4px;
-	transition: color 150ms ease, background-color 150ms ease;
+    color: #444;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: capitalize;
+    padding: 0.4rem 0.85rem;
+    border-radius: 25px;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    white-space: nowrap;
 }
 
 .nav-links a:hover {
-	color: #ffffff;
-	background-color: #ff6b6b;
+    color: #fff;
+    background-color: #ff6b6b;
+}
+
+/* ── Shopping Bag ── */
+.nav-right {
+    flex-shrink: 0;
 }
 
 .Shopping-bag {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 1.5rem;
-	color: #333;
-	cursor: pointer;
-	margin-left: 2rem;
-	transition: color 0.15s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.Shopping-bag a {
+    color: inherit;
+    display: flex;
+    align-items: center;
 }
 
 .Shopping-bag:hover {
-	color: #ff6b6b;
+    color: #ff6b6b;
 }
 
 .Shopping-bag .value {
-	position: absolute;
-	top: -6px;
-	right: -8px;
-	background-color: #ef4444;
-	color: white;
-	font-size: 0.7rem;
-	font-weight: bold;
-	width: 18px;
-	height: 18px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 50%;
-	border: 2px solid #ffffff;
-	box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background-color: #ef4444;
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
 }
 
-@media (max-width: 600px) {
-	.navbar{
-		border-radius: 16px;
-        padding: 0.5rem;
-        width: calc(100% - 1rem);
-	}
+/* ── Hamburger Button (hidden on desktop) ── */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
 
-	.nav-links {
-		gap: 0.5rem;
-	}
+.hamburger:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
 
-	.nav-links a{
-		font-size: 0.9rem;
-        padding: 0.25rem 0.4rem;
-	}
+.hamburger span {
+    display: block;
+    width: 22px;
+    height: 2.5px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
 
-    .Shopping-bag {
-        margin-left: 1rem;
+/* Hamburger active (X shape) */
+.hamburger.active span:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ══════════════════════════════════════════ */
+
+/* ── Tablets (769px – 991px) ── */
+@media (max-width: 991px) {
+    .navbar {
+        border-radius: 30px;
+        width: min(960px, calc(100% - 1.5rem));
+    }
+
+    .nav-inner {
+        padding: 0.5rem 1.25rem;
+    }
+
+    .nav-title {
+        font-size: 1rem;
+    }
+
+    .nav-links a {
+        font-size: 0.88rem;
+        padding: 0.35rem 0.6rem;
     }
 }
 
+/* ── Mobile (≤ 768px) — Hamburger + Dropdown Menu ── */
+@media (max-width: 768px) {
+    .navbar {
+        border-radius: 20px;
+        width: calc(100% - 1.5rem);
+        margin: 0.75rem auto;
+        top: 0.5rem;
+    }
+
+    .nav-inner {
+        flex-wrap: wrap;
+        padding: 0.6rem 1rem;
+    }
+
+    .nav-title {
+        font-size: 1rem;
+        order: 1;
+    }
+
+    .hamburger {
+        display: flex;
+        order: 3;
+    }
+
+    .nav-right {
+        order: 2;
+        margin-left: auto;
+        margin-right: 0.5rem;
+    }
+
+    /* Collapsible nav links */
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        order: 4;
+        gap: 0;
+        padding: 0.5rem 0 0.25rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        margin-top: 0.5rem;
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+        width: 100%;
+        text-align: center;
+        padding: 0.65rem 1rem;
+        border-radius: 12px;
+        font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+        background-color: #fff0f0;
+        color: #ff6b6b;
+    }
+}
+
+/* ── Small Phones (≤ 480px) ── */
+@media (max-width: 480px) {
+    .navbar {
+        border-radius: 16px;
+        width: calc(100% - 1rem);
+        margin: 0.5rem auto;
+        top: 0.35rem;
+    }
+
+    .nav-inner {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .nav-title {
+        font-size: 0.9rem;
+    }
+
+    .Shopping-bag {
+        font-size: 1.3rem;
+    }
+
+    .Shopping-bag .value {
+        width: 16px;
+        height: 16px;
+        font-size: 0.6rem;
+        top: -5px;
+        right: -8px;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+        padding: 0.55rem 0.75rem;
+    }
+}
