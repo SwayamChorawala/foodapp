@@ -6,7 +6,7 @@ import Home from './components/Home';
 import Menu from './components/Menu/Menu'
 
 import Explore from './components/Explore';
-import About from './components/about/About';
+import About from './components/About/About';
 import { LuALargeSmall, LuShoppingBag } from 'react-icons/lu';
 import Card2 from './components/Menu/Card2';
 import Contaxt from './context/Contaxt';
