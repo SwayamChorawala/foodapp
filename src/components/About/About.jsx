@@ -1,9 +1,9 @@
 import React from 'react'
 import Navbar from '../Navbar'
 import Details from './Details'
-import Team from './Team'
 import Footer from '../Footer'
 import './about.css'
+import Team from './Team'
 const About = () => {
   return (
     <div>
