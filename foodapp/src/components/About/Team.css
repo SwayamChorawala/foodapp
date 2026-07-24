@@ -1,0 +1,119 @@
+/* ══════════════════════════════════════════
+   TEAM — Glassmorphism Chef Cards
+══════════════════════════════════════════ */
+
+.main2 {
+  background: var(--dark-bg);
+  padding: 5rem 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.main2::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; transform: translateX(-50%);
+  width: 500px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(212,168,71,0.4), transparent);
+}
+
+#hc {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  text-align: center;
+  color: var(--text-primary);
+  margin: 0 0 3rem;
+}
+
+.teams-grid {
+  display: flex;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* 3D Tilt Wrapper */
+.chef-card-tilt {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.4s ease-out;
+  will-change: transform;
+  position: relative;
+}
+
+.chef-card-tilt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(
+    var(--glare-angle, 180deg),
+    rgba(255, 255, 255, var(--glare-opacity, 0)) 0%,
+    transparent 80%
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+.chef-card {
+  background: var(--dark-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chef-card:hover {
+  border-color: rgba(212, 168, 71, 0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(212,168,71,0.08);
+}
+
+.chef-card img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid rgba(212, 168, 71, 0.25);
+  box-shadow: 0 0 0 6px rgba(212,168,71,0.06);
+  transition: border-color 0.3s ease, transform 0.4s ease;
+  filter: brightness(0.9) saturate(1.1);
+}
+
+.chef-card:hover img {
+  border-color: rgba(212, 168, 71, 0.5);
+  transform: scale(1.04);
+}
+
+#pc, #pc3 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+#pc2, #pc4 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .chef-card { width: 220px; }
+  .chef-card img { width: 130px; height: 130px; }
+}

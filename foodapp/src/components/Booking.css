@@ -1,0 +1,129 @@
+/* ══════════════════════════════════════════
+   BOOKING CTA — Radial Aurora Glow
+══════════════════════════════════════════ */
+
+.booking-cta {
+  width: 100%;
+  min-height: 480px;
+  background: radial-gradient(ellipse 100% 70% at 50% 50%,
+    rgba(65, 88, 208, 0.12) 0%,
+    rgba(200, 80, 192, 0.08) 35%,
+    var(--dark-bg) 70%
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1.5rem;
+  border-top-right-radius: 50% 100px;
+  border-top-left-radius: 50% 100px;
+  border-bottom-right-radius: 50% 100px;
+  border-bottom-left-radius: 50% 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  gap: 1rem;
+}
+
+/* Glow orb */
+.booking-orb {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 168, 71, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(40px);
+  animation: aurora-move-3 12s ease-in-out infinite;
+}
+
+.booking-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(212, 168, 71, 0.2);
+  background: rgba(212, 168, 71, 0.07);
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+}
+
+.h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 700;
+  margin: 0.25rem 0;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--gold-light) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+}
+
+.p7 {
+  text-align: center;
+  margin: 0 auto;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  font-weight: 400;
+  max-width: 580px;
+  line-height: 1.75;
+}
+
+/* CTA Button */
+.btn2 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 2.5rem;
+  background: transparent;
+  color: var(--gold-light);
+  border: 1.5px solid var(--gold);
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.35s var(--ease-bounce);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(212, 168, 71, 0.1);
+}
+
+.btn2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  border-radius: 999px;
+  z-index: -1;
+}
+
+.btn2:hover {
+  color: #0a0a0f;
+  box-shadow: 0 0 40px rgba(212, 168, 71, 0.4), 0 8px 30px rgba(0,0,0,0.3);
+  border-color: transparent;
+  transform: translateY(-4px) scale(1.03);
+}
+.btn2:hover::before { opacity: 1; }
+.btn2:active { transform: translateY(1px) scale(0.98); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .booking-cta {
+    min-height: 380px;
+    border-radius: 30px;
+    padding: 4rem 1rem;
+  }
+  .h1 { font-size: 2.8rem; }
+}
+
+@media (max-width: 480px) {
+  .booking-cta { min-height: 320px; border-radius: 24px; }
+  .h1 { font-size: 2.2rem; }
+  .p7 { font-size: 0.9rem; }
+  .btn2 { padding: 0.75rem 1.75rem; }
+}

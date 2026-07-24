@@ -1,0 +1,33 @@
+/* ══════════════════════════════════════════
+   CONTACT PAGE — Dark Premium
+══════════════════════════════════════════ */
+
+.ch {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(135deg, var(--text-primary) 30%, var(--gold-light) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 auto 1.25rem;
+  line-height: 1.1;
+}
+
+.cp {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.75;
+}
+
+.contact-form-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem 4rem;
+}
+
+/* The .form and form styles are inherited from form.css */

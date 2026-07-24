@@ -1,0 +1,208 @@
+/* ═══════════════════════════════════════════════════
+   GLOBAL FOUNDATION — The Chef & The Table
+   Premium Dark Design System
+═══════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── CSS Custom Properties ── */
+:root {
+  /* Colors */
+  --gold: #d4a847;
+  --gold-light: #f0c060;
+  --gold-dim: rgba(212, 168, 71, 0.15);
+  --dark-bg: #07070d;
+  --dark-surface: #0e0e1a;
+  --dark-card: rgba(18, 18, 30, 0.75);
+  --dark-card-solid: #12121e;
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hover: rgba(212, 168, 71, 0.4);
+  --aurora-1: #ff6b6b;
+  --aurora-2: #c850c0;
+  --aurora-3: #4158d0;
+  --aurora-4: #0d9488;
+  --text-primary: #f0ece4;
+  --text-secondary: rgba(240, 236, 228, 0.75);
+  --text-muted: rgba(240, 236, 228, 0.45);
+
+  /* Shadows */
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
+  --shadow-gold: 0 0 40px rgba(212, 168, 71, 0.2);
+  --shadow-gold-hover: 0 0 60px rgba(212, 168, 71, 0.35);
+
+  /* Radii */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+
+  /* Transitions */
+  --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.2s var(--ease-smooth);
+  --transition-med: 0.35s var(--ease-smooth);
+  --transition-slow: 0.6s var(--ease-smooth);
+}
+
+/* ── Reset & Base ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.2;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input, textarea, select {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Scroll Progress Bar ── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--aurora-3), var(--gold), var(--aurora-1));
+  z-index: 9999;
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* ── Aurora Background Blobs ── */
+@keyframes aurora-move-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(60px, -80px) scale(1.1); }
+  66% { transform: translate(-40px, 60px) scale(0.95); }
+}
+@keyframes aurora-move-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-80px, 60px) scale(1.05); }
+  66% { transform: translate(50px, -40px) scale(1.1); }
+}
+@keyframes aurora-move-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 80px) scale(0.9); }
+}
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 20px currentColor; }
+  50% { opacity: 1; box-shadow: 0 0 40px currentColor, 0 0 80px currentColor; }
+}
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Utility — Gradient Text ── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 50%, #e8b86d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shimmer 4s linear infinite;
+}
+.gradient-text-aurora {
+  background: linear-gradient(135deg, var(--aurora-1) 0%, var(--aurora-2) 50%, var(--aurora-3) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ── Utility — Glassmorphism Card ── */
+.glass-card {
+  background: var(--dark-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+}
+
+/* ── Accessibility ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Custom Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--dark-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: var(--radius-pill);
+  opacity: 0.6;
+}
+::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+}
+
+/* ── Selection ── */
+::selection {
+  background: rgba(212, 168, 71, 0.25);
+  color: var(--gold-light);
+}

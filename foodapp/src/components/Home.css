@@ -1,0 +1,203 @@
+/* ══════════════════════════════════════════
+   HOME PAGE — Dark Premium Design
+══════════════════════════════════════════ */
+
+.home-page {
+  background-color: var(--dark-bg);
+  color: var(--text-primary);
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* ── Hero Photo Section ── */
+.photo {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  will-change: transform;
+  filter: brightness(0.45) saturate(1.1);
+  transform-origin: center;
+}
+
+/* Cinematic dark gradient overlay */
+.hero-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 80%, rgba(7, 7, 13, 0.7) 0%, transparent 70%),
+    linear-gradient(180deg, rgba(7,7,13,0.3) 0%, rgba(7,7,13,0.1) 40%, rgba(7,7,13,0.6) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem 1rem 6rem;
+  gap: 1.25rem;
+}
+
+/* Floating decorative orbs */
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(60px);
+}
+.hero-orb-1 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(65, 88, 208, 0.2) 0%, transparent 70%);
+  top: 10%;
+  left: -5%;
+  animation: aurora-move-1 12s ease-in-out infinite alternate;
+}
+.hero-orb-2 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(212, 168, 71, 0.12) 0%, transparent 70%);
+  bottom: 15%;
+  right: 0;
+  animation: aurora-move-2 10s ease-in-out infinite alternate;
+}
+
+/* ── Hero Eyebrow ── */
+.hero-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(212, 168, 71, 0.1);
+  border: 1px solid rgba(212, 168, 71, 0.25);
+  padding: 0.4rem 1.25rem;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+/* ── Hero Title ── */
+.taste {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--text-primary);
+  margin: 0;
+  perspective: 600px;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 0.1em;
+  text-shadow: 0 4px 40px rgba(0,0,0,0.5);
+}
+
+/* ── Hero Subtitle ── */
+.p {
+  color: var(--text-secondary);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* ── CTA Button ── */
+.btn {
+  position: relative;
+  padding: 0.9rem 2.5rem;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+  background-size: 200% auto;
+  color: #0a0a0f;
+  border: none;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-position 0.5s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  will-change: transform;
+  box-shadow: 0 4px 20px rgba(212, 168, 71, 0.35);
+}
+
+.btn:hover {
+  background-position: right center;
+  box-shadow: 0 8px 35px rgba(212, 168, 71, 0.55), 0 0 0 1px rgba(212,168,71,0.3);
+}
+
+.btn-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.3) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.btn:hover .btn-glow { opacity: 1; }
+
+.btn-text { position: relative; z-index: 1; }
+
+/* ── Scroll Indicator ── */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  animation: float-gentle 2s ease-in-out infinite;
+}
+
+/* ── Section Backgrounds ── */
+.hero-stack { background-color: var(--dark-surface); }
+.side-stack { padding: 4rem 0; background-color: var(--dark-bg); }
+.form-stack { padding: 2rem 0; background-color: var(--dark-surface); }
+.footer-stack { background: transparent; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .photo { min-height: 80vh; }
+  .hero-overlay { min-height: 80vh; padding: 2rem 1rem 4rem; }
+  .taste {
+    font-size: clamp(2.2rem, 8vw, 4.2rem);
+    gap: 0.3rem 0.5rem;
+    max-width: 90%;
+  }
+  .btn { padding: 0.8rem 2rem; }
+  .hero-orb { display: none; }
+}
+
+@media (max-width: 480px) {
+  .photo { min-height: 75vh; }
+  .hero-overlay { min-height: 75vh; padding: 1.5rem 0.75rem 3.5rem; }
+  .taste {
+    font-size: clamp(1.8rem, 10vw, 3rem);
+    line-height: 1.25;
+  }
+  .p { font-size: 0.95rem; max-width: 280px; }
+  .btn { padding: 0.75rem 1.75rem; font-size: 0.9rem; }
+}

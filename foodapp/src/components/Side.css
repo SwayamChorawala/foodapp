@@ -1,0 +1,184 @@
+/* ══════════════════════════════════════════
+   SIDE — Signature Dishes Gallery
+══════════════════════════════════════════ */
+
+.side-section {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.side-header {
+  text-align: center;
+}
+
+.side-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.side-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  text-align: center;
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* ── Scroll Gallery ── */
+.img-container {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  gap: 1.5rem;
+  padding: 1rem 0.5rem 1.5rem;
+  width: 100%;
+  scroll-snap-type: x mandatory;
+  box-sizing: border-box;
+}
+
+/* Custom scrollbar */
+.img-container::-webkit-scrollbar { height: 4px; }
+.img-container::-webkit-scrollbar-track { background: var(--dark-surface); border-radius: 4px; }
+.img-container::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; opacity: 0.6; }
+
+/* ── 3D Tilt Cards ── */
+.imgfood-tilt {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.4s ease-out;
+  will-change: transform;
+  position: relative;
+  flex: 0 0 380px;
+  scroll-snap-align: start;
+}
+
+.imgfood-tilt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(
+    var(--glare-angle, 180deg),
+    rgba(255, 255, 255, var(--glare-opacity, 0)) 0%,
+    transparent 80%
+  );
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+}
+
+.imgfood {
+  overflow: hidden;
+  border-radius: 16px;
+  width: 100%;
+  position: relative;
+  border: 1px solid var(--glass-border);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.imgfood:hover {
+  border-color: rgba(212, 168, 71, 0.3);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(212,168,71,0.08);
+}
+
+.imgfood img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: brightness(0.85) saturate(1.1);
+}
+
+.imgfood:hover img { transform: scale(1.06); filter: brightness(0.75) saturate(1.2); }
+
+/* Dish name overlay */
+.dish-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.25rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.imgfood:hover .dish-overlay { opacity: 1; }
+
+.dish-name {
+  color: var(--gold-light);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* ── CTA ── */
+.side-cta { display: flex; justify-content: center; }
+
+.menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 2.25rem;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  color: #0a0a0f;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  box-shadow: 0 4px 20px rgba(212, 168, 71, 0.3);
+  transition: all 0.3s var(--ease-bounce);
+}
+
+.menu-btn:hover {
+  box-shadow: 0 8px 35px rgba(212, 168, 71, 0.5);
+  transform: translateY(-3px) scale(1.03);
+}
+
+.menu-btn:active { transform: translateY(1px) scale(0.97); }
+.menu-btn-arrow { transition: transform 0.3s ease; }
+.menu-btn:hover .menu-btn-arrow { transform: translateX(4px); }
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .imgfood-tilt { flex: 0 0 320px; }
+}
+
+@media (max-width: 768px) {
+  .side-section { padding: 2rem 1rem; }
+  .imgfood-tilt { flex: 0 0 280px; }
+  .imgfood img { height: 280px; }
+  
+  /* Make dish name overlay always visible on mobile touch screens */
+  .dish-overlay {
+    opacity: 1;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+  }
+}
+
+@media (max-width: 480px) {
+  .side-section { padding: 1.5rem 0.5rem; gap: 1.5rem; }
+  .imgfood-tilt { flex: 0 0 240px; }
+  .imgfood img { height: 240px; }
+  .dish-name { font-size: 1rem; }
+}
+
