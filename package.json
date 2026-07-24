@@ -1,0 +1,13 @@
+{
+  "name": "foodapp-workspace",
+  "version": "1.0.0",
+  "description": "Root workspace to run foodapp frontend and backend concurrently",
+  "scripts": {
+    "backend": "npm run dev --prefix backend",
+    "frontend": "npm run dev --prefix foodapp",
+    "dev": "npx concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
