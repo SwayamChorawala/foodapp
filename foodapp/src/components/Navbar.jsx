@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Navbar.css'
-import { LuShoppingBag } from "react-icons/lu"
+import { LuShoppingBag, LuUser, LuLogIn, LuLogOut } from "react-icons/lu"
 import { useSelector } from 'react-redux'
 
 const Navbar = () => {
@@ -11,7 +11,33 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [lastScrollY, setLastScrollY] = useState(0)
+  const [currentUser, setCurrentUser] = useState(null)
   const location = useLocation()
+
+  useEffect(() => {
+    const checkUser = () => {
+      const stored = localStorage.getItem('user')
+      if (stored) {
+        try {
+          setCurrentUser(JSON.parse(stored))
+        } catch {
+          setCurrentUser(null)
+        }
+      } else {
+        setCurrentUser(null)
+      }
+    }
+
+    checkUser()
+    window.addEventListener('authChange', checkUser)
+    return () => window.removeEventListener('authChange', checkUser)
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    setCurrentUser(null)
+    window.dispatchEvent(new Event('authChange'))
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +50,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
 
+
   // Close menu on route change
   useEffect(() => { setMenuOpen(false) }, [location])
 
@@ -32,6 +59,7 @@ const Navbar = () => {
     { to: '/about', label: 'About' },
     { to: '/menu', label: 'Menu' },
     { to: '/contact', label: 'Contact' },
+    { to: '/admin', label: 'Admin Panel' },
   ]
 
   return (
@@ -72,8 +100,25 @@ const Navbar = () => {
           })}
         </div>
 
-        {/* Right — cart + hamburger */}
+        {/* Right — cart + user auth + hamburger */}
         <div className='nav-right'>
+          {currentUser ? (
+            <div className="user-auth-section">
+              <div className="user-badge">
+                <LuUser className="user-badge-icon" />
+                <span>{currentUser.username}</span>
+              </div>
+              <button onClick={handleLogout} className="logout-nav-btn" title="Logout">
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" className="auth-nav-btn">
+              <LuLogIn />
+              <span>Login</span>
+            </Link>
+          )}
+
           <Link to="/card2" className='shopping-bag-link' aria-label="View cart">
             <div className='shopping-bag'>
               <LuShoppingBag />
@@ -133,6 +178,32 @@ const Navbar = () => {
                 </Link>
               </motion.div>
             ))}
+
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: navLinks.length * 0.07, duration: 0.3 }}
+            >
+              {currentUser ? (
+                <div style={{ padding: '0.75rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ color: '#ffd700', fontWeight: 600, fontSize: '0.9rem' }}>
+                    👤 {currentUser.username}
+                  </span>
+                  <button onClick={handleLogout} className="logout-nav-btn">
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/login"
+                  className="mobile-link"
+                  style={{ color: '#ff5252', fontWeight: 600 }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Login / Register
+                </Link>
+              )}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

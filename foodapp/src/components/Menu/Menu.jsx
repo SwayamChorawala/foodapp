@@ -15,16 +15,52 @@ const cardVariant = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
 }
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 const Menu = () => {
   const [name, setname] = useState("")
-  const [filteredItems, setFilteredItems] = useState(menuItems)
+  const [menuItemsList, setMenuItemsList] = useState(() => {
+    const stored = localStorage.getItem('foodMenuItems');
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+    return menuItems;
+  });
+  const [filteredItems, setFilteredItems] = useState(menuItemsList);
+
+  const loadMenu = () => {
+    const stored = localStorage.getItem('foodMenuItems');
+    let currentItems = menuItems;
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          currentItems = parsed;
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+    setMenuItemsList(currentItems);
+  };
 
   useEffect(() => {
-    const result = menuItems.filter((item) =>
+    loadMenu();
+    window.addEventListener('menuUpdated', loadMenu);
+    return () => window.removeEventListener('menuUpdated', loadMenu);
+  }, []);
+
+  useEffect(() => {
+    const result = menuItemsList.filter((item) =>
       item.title.toLowerCase().includes(name.toLowerCase())
-    )
-    return () => { setFilteredItems(result) }
-  }, [name])
+    );
+    setFilteredItems(result);
+  }, [name, menuItemsList]);
 
   return (
     <motion.div
