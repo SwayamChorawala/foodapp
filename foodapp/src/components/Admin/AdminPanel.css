@@ -707,3 +707,49 @@
 .admin-toast.info {
   background: #3b82f6;
 }
+
+/* Modal Image Preview */
+.modal-img-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.modal-img-preview img {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.img-preview-label {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.img-hint {
+  font-size: 0.78rem;
+  color: rgba(255, 200, 100, 0.75);
+  margin-top: 0.35rem;
+  margin-bottom: 0;
+}
+
+/* item.js source badge on food card */
+.badge-source {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(99, 102, 241, 0.9);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}

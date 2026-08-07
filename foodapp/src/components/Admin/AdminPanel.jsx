@@ -52,6 +52,7 @@ const AdminPanel = () => {
   // Modal State for Food Item (Create / Edit)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [originalImage, setOriginalImage] = useState(null); // stores imported avif/module images
   const [formData, setFormData] = useState({
     title: '',
     desc: '',
@@ -145,181 +146,188 @@ const AdminPanel = () => {
     triggerNotification('Admin logged out safely', 'info');
   };
 
-  const updateAndSyncFoodItems = (newItemsList) => {
-    setFoodItems(newItemsList);
-    localStorage.setItem('foodMenuItems', JSON.stringify(newItemsList));
+  // ─── Helper: Get edits map from localStorage ───────────────────────────────
+  const getEditsMap = () => {
+    try {
+      return JSON.parse(localStorage.getItem('adminFoodEdits') || '{}');
+    } catch { return {}; }
+  };
+
+  // ─── Helper: Save edits map to localStorage ────────────────────────────────
+  const saveEditsMap = (map) => {
+    localStorage.setItem('adminFoodEdits', JSON.stringify(map));
+  };
+
+  // ─── Helper: Get extra items (admin-added, not in item.js) ─────────────────
+  const getExtraItems = () => {
+    try {
+      return JSON.parse(localStorage.getItem('adminFoodExtras') || '[]');
+    } catch { return []; }
+  };
+
+  // ─── Build the live display list from item.js + edits + extras ───────────
+  const buildFoodList = () => {
+    const editsMap = getEditsMap();
+    const extras = getExtraItems();
+    const base = menuItems.map((item) => {
+      const edit = editsMap[item.id];
+      return edit ? { ...item, ...edit, image: item.image } : item; // image always from item.js
+    });
+    return [...base, ...extras];
+  };
+
+  // ─── Sync display list and fire menuUpdated event ─────────────────────────
+  const syncFoodDisplay = () => {
+    const list = buildFoodList();
+    setFoodItems(list);
+    // For Menu.jsx: serialise extras + edits as URL-based items
+    const editsMap = getEditsMap();
+    const extras = getExtraItems();
+    const forMenu = [
+      ...menuItems.map((item) => {
+        const edit = editsMap[item.id];
+        return edit
+          ? { ...item, ...edit, image: item.image } // image stays as module reference for Menu
+          : item;
+      }),
+      ...extras,
+    ];
+    localStorage.setItem('foodMenuItems', JSON.stringify(
+      forMenu.map((i) => ({
+        ...i,
+        image: typeof i.image === 'object' && i.image !== null
+          ? (i.image.src || i.image.default || '')
+          : i.image,
+      }))
+    ));
     window.dispatchEvent(new Event('menuUpdated'));
   };
 
-  // Fetch Dashboard Data from API & LocalStorage
+  // ─── Load all dashboard data ───────────────────────────────────────────────
   const fetchDashboardData = async () => {
     setLoadingData(true);
-
-    let initialList = menuItems;
-    const stored = localStorage.getItem('foodMenuItems');
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length >= menuItems.length) {
-          initialList = parsed;
-        }
-      } catch (err) {
-        console.warn(err);
-      }
-    }
-
-    setFoodItems(initialList);
-    localStorage.setItem('foodMenuItems', JSON.stringify(initialList));
-    window.dispatchEvent(new Event('menuUpdated'));
+    syncFoodDisplay();
 
     // Fetch Orders
     try {
       const orderRes = await fetch(`${API_BASE_URL}/api/orders`);
-      if (orderRes.ok) {
-        const orderData = await orderRes.json();
-        setOrders(orderData);
-      }
-    } catch (err) {
-      console.log('Orders fetch note:', err.message);
-    }
+      if (orderRes.ok) setOrders(await orderRes.json());
+    } catch (err) { console.log('Orders fetch note:', err.message); }
 
     // Fetch Users
     try {
       const userRes = await fetch(`${API_BASE_URL}/api/users`);
-      if (userRes.ok) {
-        const userData = await userRes.json();
-        setUsers(userData);
-      }
-    } catch (err) {
-      console.log('Users fetch note:', err.message);
-    }
+      if (userRes.ok) setUsers(await userRes.json());
+    } catch (err) { console.log('Users fetch note:', err.message); }
 
     setLoadingData(false);
   };
 
-  // Open modal for Create or Edit
+  // ─── Open Edit / Create Modal ──────────────────────────────────────────────
   const openFoodModal = (item = null) => {
     if (item) {
       setEditingItem(item);
+      setOriginalImage(item.image); // preserve original item.js module image
+      const isUrlString = item.image && typeof item.image === 'string' && item.image.startsWith('http');
       setFormData({
         title: item.title || '',
         desc: item.desc || '',
         price: item.price || '',
         type: item.type || 'veg',
-        image: item.image || '',
+        image: isUrlString ? item.image : '', // only pre-fill if it's an http URL
         category: item.category || 'Mains',
       });
     } else {
       setEditingItem(null);
-      setFormData({
-        title: '',
-        desc: '',
-        price: '',
-        type: 'veg',
-        image: '',
-        category: 'Mains',
-      });
+      setOriginalImage(null);
+      setFormData({ title: '', desc: '', price: '', type: 'veg', image: '', category: 'Mains' });
     }
     setIsModalOpen(true);
   };
 
-  const closeFoodModal = () => {
-    setIsModalOpen(false);
-    setEditingItem(null);
-  };
+  const closeFoodModal = () => { setIsModalOpen(false); setEditingItem(null); };
 
-  // Save Food Item (Create / Update CRUD)
-  const handleSaveFoodItem = async (e) => {
+  // ─── Save Food Item (Edit or Create) ──────────────────────────────────────
+  const handleSaveFoodItem = (e) => {
     e.preventDefault();
-
     if (!formData.title.trim() || !formData.price) {
-      alert('Title and Price are required!');
+      alert('Title aur Price zaroori hain!');
       return;
     }
 
-    const payload = {
-      title: formData.title.trim(),
-      desc: formData.desc.trim(),
-      price: Number(formData.price),
-      type: formData.type,
-      image: formData.image.trim() || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80',
-      category: formData.category,
-    };
-
-    let updatedList = [];
-
     if (editingItem) {
-      // UPDATE (Edit)
-      const id = editingItem._id || editingItem.id;
-      updatedList = foodItems.map((item) =>
-        (item._id || item.id) === id ? { ...item, ...payload, id } : item
-      );
+      const itemId = editingItem.id || editingItem._id;
+      const isBaseItem = menuItems.some((m) => m.id === itemId);
 
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/food/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.item) {
-            updatedList = foodItems.map((item) =>
-              (item._id || item.id) === id ? { ...data.item, id: data.item._id || id } : item
-            );
-          }
-        }
-      } catch (err) {
-        console.warn('Backend update note:', err);
+      if (isBaseItem) {
+        // Edit a base item.js item — store only changed fields (NOT image)
+        const editsMap = getEditsMap();
+        editsMap[itemId] = {
+          title: formData.title.trim(),
+          desc: formData.desc.trim(),
+          price: Number(formData.price),
+          type: formData.type,
+          category: formData.category,
+          // image: only save a new URL if user typed one; otherwise keep item.js image
+          ...(formData.image.trim() !== '' ? { imageOverride: formData.image.trim() } : {}),
+        };
+        saveEditsMap(editsMap);
+      } else {
+        // Edit an admin-added extra item
+        const extras = getExtraItems().map((ex) =>
+          (ex.id === itemId || ex._id === itemId)
+            ? {
+              ...ex,
+              title: formData.title.trim(),
+              desc: formData.desc.trim(),
+              price: Number(formData.price),
+              type: formData.type,
+              category: formData.category,
+              image: formData.image.trim() || ex.image || originalImage || '',
+            }
+            : ex
+        );
+        localStorage.setItem('adminFoodExtras', JSON.stringify(extras));
       }
-
-      updateAndSyncFoodItems(updatedList);
-      triggerNotification('Food item updated successfully!');
+      triggerNotification('Item successfully updated! ✅');
     } else {
-      // CREATE (Add New)
-      const newId = Date.now();
-      const newItem = { ...payload, id: newId };
-      updatedList = [newItem, ...foodItems];
-
-      try {
-        const res = await fetch(`${API_BASE_URL}/api/food`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.item) {
-            updatedList = [{ ...data.item, id: data.item._id || newId }, ...foodItems];
-          }
-        }
-      } catch (err) {
-        console.warn('Backend create note:', err);
-      }
-
-      updateAndSyncFoodItems(updatedList);
-      triggerNotification('New food item added successfully!');
+      // CREATE new extra item
+      const extras = getExtraItems();
+      const newItem = {
+        id: Date.now(),
+        title: formData.title.trim(),
+        desc: formData.desc.trim(),
+        price: Number(formData.price),
+        type: formData.type,
+        category: formData.category,
+        image: formData.image.trim() || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80',
+      };
+      extras.push(newItem);
+      localStorage.setItem('adminFoodExtras', JSON.stringify(extras));
+      triggerNotification('Naya item add ho gaya! ✅');
     }
 
+    syncFoodDisplay();
     closeFoodModal();
   };
 
-  // DELETE Food Item
-  const handleDeleteFoodItem = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this food item?')) return;
-
-    const updatedList = foodItems.filter((item) => (item._id || item.id) !== id);
-    updateAndSyncFoodItems(updatedList);
-
-    try {
-      await fetch(`${API_BASE_URL}/api/food/${id}`, { method: 'DELETE' });
-    } catch (err) {
-      console.warn('Backend delete warning:', err);
+  // ─── Delete Food Item ──────────────────────────────────────────────────────
+  const handleDeleteFoodItem = (id) => {
+    if (!window.confirm('Kya aap is food item ko delete karna chahte hain?')) return;
+    const isBaseItem = menuItems.some((m) => m.id === id);
+    if (isBaseItem) {
+      // For base items: reset any edits (restore to original)
+      const editsMap = getEditsMap();
+      delete editsMap[id];
+      saveEditsMap(editsMap);
+      triggerNotification('Item original state mein restore ho gaya', 'info');
+    } else {
+      // For extra items: remove from extras
+      const extras = getExtraItems().filter((ex) => ex.id !== id && ex._id !== id);
+      localStorage.setItem('adminFoodExtras', JSON.stringify(extras));
+      triggerNotification('Item delete ho gaya', 'info');
     }
-
-    triggerNotification('Food item deleted', 'info');
+    syncFoodDisplay();
   };
 
   // UPDATE Order Status
@@ -554,39 +562,45 @@ const AdminPanel = () => {
 
             {/* Food Items Grid */}
             <div className="food-grid">
-              {filteredFoodItems.map((item) => (
-                <div key={item._id || item.id} className="admin-food-card">
-                  <div className="food-card-img">
-                    <img src={item.image} alt={item.title} />
-                    <span className={`badge-type ${item.type}`}>{item.type}</span>
-                  </div>
-                  <div className="food-card-body">
-                    <h3>{item.title}</h3>
-                    <p className="food-desc">{item.desc}</p>
-                    <div className="food-meta">
-                      <span className="food-price">₹{item.price}</span>
-                      <span className="food-cat">{item.category || 'Mains'}</span>
+              {filteredFoodItems.map((item) => {
+                const isBaseItem = menuItems.some((m) => m.id === item.id);
+                return (
+                  <div key={item._id || item.id} className="admin-food-card">
+                    <div className="food-card-img">
+                      <img src={item.image} alt={item.title} />
+                      <span className={`badge-type ${item.type}`}>{item.type}</span>
+                      {isBaseItem && (
+                        <span className="badge-source">item.js</span>
+                      )}
                     </div>
+                    <div className="food-card-body">
+                      <h3>{item.title}</h3>
+                      <p className="food-desc">{item.desc}</p>
+                      <div className="food-meta">
+                        <span className="food-price">₹{item.price}</span>
+                        <span className="food-cat">{item.category || 'Mains'}</span>
+                      </div>
 
-                    <div className="card-actions">
-                      <button
-                        className="btn-edit"
-                        onClick={() => openFoodModal(item)}
-                        title="Edit Food Item"
-                      >
-                        <LuPencil /> Edit
-                      </button>
-                      <button
-                        className="btn-delete"
-                        onClick={() => handleDeleteFoodItem(item._id || item.id)}
-                        title="Delete Food Item"
-                      >
-                        <LuTrash2 /> Delete
-                      </button>
+                      <div className="card-actions">
+                        <button
+                          className="btn-edit"
+                          onClick={() => openFoodModal(item)}
+                          title="Edit Food Item"
+                        >
+                          <LuPencil /> Edit
+                        </button>
+                        <button
+                          className="btn-delete"
+                          onClick={() => handleDeleteFoodItem(item._id || item.id)}
+                          title={isBaseItem ? 'Reset to original' : 'Delete Food Item'}
+                        >
+                          <LuTrash2 /> {isBaseItem ? 'Reset' : 'Delete'}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {filteredFoodItems.length === 0 && (
@@ -804,13 +818,27 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="admin-form-group">
-                  <label>Image URL</label>
+                  <label>Image URL / Path</label>
+                  {/* Show current image preview */}
+                  {(originalImage || formData.image) && (
+                    <div className="modal-img-preview">
+                      <img
+                        src={formData.image.trim() !== '' ? formData.image : originalImage}
+                        alt="Current Preview"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                      <span className="img-preview-label">Current Image</span>
+                    </div>
+                  )}
                   <input
-                    type="url"
-                    placeholder="https://images.unsplash.com/..."
+                    type="text"
+                    placeholder="New image URL (leave blank to keep current image)"
                     value={formData.image}
                     onChange={(e) => setFormData({ ...formData, image: e.target.value })}
                   />
+                  {editingItem && originalImage && (
+                    <p className="img-hint">💡 Image field khaali chhodein toh purani image rakhegi</p>
+                  )}
                 </div>
 
                 <div className="modal-footer">

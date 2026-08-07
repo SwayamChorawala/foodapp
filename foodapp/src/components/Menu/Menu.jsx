@@ -19,34 +19,31 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const Menu = () => {
   const [name, setname] = useState("")
-  const [menuItemsList, setMenuItemsList] = useState(() => {
-    const stored = localStorage.getItem('foodMenuItems');
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-      } catch (e) {
-        console.warn(e);
-      }
+
+  // Build menu list from item.js + admin edits + admin-added extras
+  const buildMenuList = () => {
+    try {
+      const editsMap = JSON.parse(localStorage.getItem('adminFoodEdits') || '{}');
+      const extras = JSON.parse(localStorage.getItem('adminFoodExtras') || '[]');
+      const base = menuItems.map((item) => {
+        const edit = editsMap[item.id];
+        if (!edit) return item;
+        const resolvedImage = edit.imageOverride ? edit.imageOverride : item.image;
+        return { ...item, ...edit, image: resolvedImage };
+      });
+      return [...base, ...extras];
+    } catch (e) {
+      console.warn(e);
+      return menuItems;
     }
-    return menuItems;
-  });
-  const [filteredItems, setFilteredItems] = useState(menuItemsList);
+  };
+
+  const [menuItemsList, setMenuItemsList] = useState(() => buildMenuList());
+  const [filteredItems, setFilteredItems] = useState(() => buildMenuList());
 
   const loadMenu = () => {
-    const stored = localStorage.getItem('foodMenuItems');
-    let currentItems = menuItems;
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          currentItems = parsed;
-        }
-      } catch (e) {
-        console.warn(e);
-      }
-    }
-    setMenuItemsList(currentItems);
+    const list = buildMenuList();
+    setMenuItemsList(list);
   };
 
   useEffect(() => {
