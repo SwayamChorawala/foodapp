@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LuUser, LuLock, LuMail, LuLogIn, LuUserPlus, LuCheck, LuInfo } from 'react-icons/lu';
 import './Login.css';
@@ -8,21 +8,25 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const returnUrl = location.state?.returnUrl || '/';
+  const redirectMessage = location.state?.message || '';
+
   const [isLoginTab, setIsLoginTab] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState(redirectMessage);
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Check if user is already logged in -> auto-redirect to Home page
+  // Check if user is already logged in -> auto-redirect
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     if (savedUser) {
-      navigate('/', { replace: true });
+      navigate(returnUrl, { replace: true });
     }
-  }, [navigate]);
+  }, [navigate, returnUrl]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,10 +63,10 @@ const Login = () => {
       localStorage.setItem('user', JSON.stringify(userData));
       window.dispatchEvent(new Event('authChange'));
 
-      setSuccessMsg(isLoginTab ? 'Login successful! Redirecting to Home...' : 'Account created & Logged in! Redirecting...');
+      setSuccessMsg(isLoginTab ? 'Login successful! Redirecting...' : 'Account created & Logged in! Redirecting...');
       
       setTimeout(() => {
-        navigate('/', { replace: true });
+        navigate(returnUrl, { replace: true });
       }, 1000);
     } catch (err) {
       console.warn('Backend API error or server offline:', err.message);
@@ -77,9 +81,9 @@ const Login = () => {
         localStorage.setItem('user', JSON.stringify(fallbackUser));
         window.dispatchEvent(new Event('authChange'));
         
-        setSuccessMsg('Logged in successfully (Offline Mode)! Redirecting...');
+        setSuccessMsg('Logged in successfully! Redirecting...');
         setTimeout(() => {
-          navigate('/', { replace: true });
+          navigate(returnUrl, { replace: true });
         }, 1000);
       } else {
         setErrorMsg(err.message || 'Something went wrong. Please try again.');

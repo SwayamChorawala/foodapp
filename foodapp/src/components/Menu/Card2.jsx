@@ -5,9 +5,10 @@ import Card from './Card'
 import Navbar from '../Navbar'
   import { increaseQuantity, decreaseQuantity } from '../../redux/CreateSlice'
 import OrderForm from './OrderForm'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
 const Card2 = () => {
-  
+  const navigate = useNavigate()
   const items = useSelector(state => state.app)
 
   const subtotal = items.reduce((total, item) => total + item.price * (item.quantity || 1), 0)
@@ -15,7 +16,21 @@ const Card2 = () => {
   const deliveryFee = 20
   const taxes = subtotal * 5 / 100 // 5% tax
   const total = subtotal + deliveryFee + taxes
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
+
+  const handleCheckout = () => {
+    const user = localStorage.getItem('user')
+    if (!user) {
+      navigate('/login', {
+        state: {
+          returnUrl: '/orderform',
+          message: 'Please login'
+        }
+      })
+    } else {
+      navigate('/orderform')
+    }
+  }
   return (
     <div>
 
@@ -74,11 +89,10 @@ const Card2 = () => {
                 <h3>Total</h3>
                 <h3>₹{total.toFixed(2)}</h3>
               </div>
-            <Link to='/OrderForm'>      
-              <button className="checkout-button">Proceed to Checkout</button>
-            </Link>  
+              <button className="checkout-button" onClick={handleCheckout}>
+                Proceed to Checkout
+              </button>
             </div>
-
           </div>
 
         )}

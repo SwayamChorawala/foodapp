@@ -344,7 +344,53 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
-@keyframes slideInDown {
-  0%   { opacity: 0; transform: translateY(-8px); }
-  100% { opacity: 1; transform: translateY(0); }
+/* ─────────────────────────────────────────────────
+   Order Login Guard Card
+───────────────────────────────────────────────── */
+.order-login-guard-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 100px);
+  padding: 2rem 1.5rem;
 }
+
+.order-login-guard-card {
+  background: var(--dark-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(212, 168, 71, 0.25);
+  border-radius: 28px;
+  padding: 3rem 2.5rem;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  animation: popIn 0.4s ease;
+}
+
+.guard-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+
+.order-login-guard-card h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.guard-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.guard-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './OrderForm.css';
 import { useSelector, useDispatch } from 'react-redux';
 import Navbar from '../Navbar';
 import { useNavigate } from 'react-router-dom';
 import { removeitem } from '../../redux/CreateSlice';
+import { LuLogIn } from 'react-icons/lu';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -12,8 +13,30 @@ const OrderForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  useEffect(() => {
+    const handleAuthChange = () => {
+      try {
+        const saved = localStorage.getItem('user');
+        setCurrentUser(saved ? JSON.parse(saved) : null);
+      } catch {
+        setCurrentUser(null);
+      }
+    };
+    window.addEventListener('authChange', handleAuthChange);
+    return () => window.removeEventListener('authChange', handleAuthChange);
+  }, []);
+
   const [formData, setFormData] = useState({
-    fullName: '',
+    fullName: currentUser?.username || '',
     phoneNumber: '',
     address: '',
     paymentMethod: 'COD',
@@ -24,7 +47,6 @@ const OrderForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
   const [orderId, setOrderId] = useState(null);
-  // Snapshot saved BEFORE cart is cleared so success screen shows correct values
   const [orderSnapshot, setOrderSnapshot] = useState({ items: [], total: 0 });
 
   const subtotal = items.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
@@ -55,6 +77,12 @@ const OrderForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!currentUser) {
+      setApiError('Please login');
+      navigate('/login', { state: { returnUrl: '/orderform', message: 'Please login' } });
+      return;
+    }
 
     if (!validate()) {
       return;
@@ -115,6 +143,57 @@ const OrderForm = () => {
       setIsLoading(false);
     }
   };
+
+  // ── Unauthenticated User Guard Screen ────────────────────────────────────
+  if (!currentUser) {
+    return (
+      <div className="orderform-page-wrapper">
+        <Navbar />
+        <div className="order-login-guard-wrapper">
+          <div className="order-login-guard-card">
+            <div className="guard-icon">🔒</div>
+            <h2>Login Required to Order Food</h2>
+            <p className="guard-subtitle">
+              Aapko order place karne ke liye pehle login karna padega.
+              <br />
+              Please log in or create an account to proceed with your order.
+            </p>
+            <div className="guard-actions">
+              <button
+                className="place-order-btn"
+                onClick={() =>
+                  navigate('/login', {
+                    state: {
+                      returnUrl: '/orderform',
+                      message: 'Please login',
+                    },
+                  })
+                }
+              >
+                <LuLogIn style={{ marginRight: '8px', verticalAlign: 'middle' }} />
+                Go to Login / Register
+              </button>
+              <button
+                style={{
+                  marginTop: '10px',
+                  background: 'transparent',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: 'var(--text-secondary, #ccc)',
+                  padding: '10px 20px',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                }}
+                onClick={() => navigate('/menu')}
+              >
+                Back to Menu
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   // ── Order Success Screen ───────────────────────────────────────────────────
   if (orderId) {
